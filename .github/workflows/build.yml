@@ -1,0 +1,41 @@
+name: Build profile art
+
+on:
+  schedule:
+    - cron: "30 2 * * *"   # daily, ~08:00 IST
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "profile.json"
+      - "scripts/build.py"
+      - ".github/workflows/build.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # build.py is standard-library only - nothing to install.
+      # GITHUB_TOKEN is enough for public data. Add a classic PAT with read:user as the
+      # repo secret METRICS_TOKEN if you also want private contributions counted.
+      - name: Generate SVGs
+        env:
+          GITHUB_TOKEN: ${{ secrets.METRICS_TOKEN || secrets.GITHUB_TOKEN }}
+        run: python scripts/build.py
+
+      - name: Commit if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/*.svg
+          git diff --staged --quiet || git commit -m "chore: refresh profile art"
+          git push

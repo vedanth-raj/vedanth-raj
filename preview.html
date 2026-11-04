@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Profile preview</title>
+<link id="gh-css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown-dark.min.css">
+<style>
+  :root { --page: #0d1117; --bar: #161b22; --line: #30363d; --ink: #e6edf3; }
+  :root[data-theme="light"] { --page: #ffffff; --bar: #f6f8fa; --line: #d0d7de; --ink: #1f2328; }
+  body { margin: 0; background: var(--page); color: var(--ink); font: 14px -apple-system, "Segoe UI", sans-serif; }
+  .bar { position: sticky; top: 0; z-index: 2; display: flex; gap: 8px; align-items: center; padding: 10px 16px;
+         background: var(--bar); border-bottom: 1px solid var(--line); }
+  .bar b { margin-right: auto; font-weight: 600; }
+  .bar button { font: inherit; color: var(--ink); background: transparent; border: 1px solid var(--line);
+                border-radius: 6px; padding: 5px 12px; cursor: pointer; }
+  .wrap { max-width: 900px; margin: 24px auto; padding: 0 16px; }
+  .markdown-body { background: transparent; border: 1px solid var(--line); border-radius: 8px; padding: 32px; }
+  .note { opacity: .7; font-size: 12px; margin: 8px 2px; }
+</style>
+</head>
+<body>
+<div class="bar">
+  <b>vedanth-raj / README.md</b>
+  <button id="theme">switch to light</button>
+  <button id="replay">replay animations</button>
+</div>
+<div class="wrap">
+  <article id="md" class="markdown-body">loading README.md…</article>
+  <p class="note">Local preview of the profile README. Run it through a local server (python -m http.server) so the SVGs load. The snake image only exists after the Snake workflow has run on GitHub.</p>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script>
+  let theme = "dark", source = "";
+  const md = document.getElementById("md");
+
+  function render() {
+    md.innerHTML = marked.parse(source);
+    // GitHub picks a <picture> source by the viewer's theme; mimic that with the toggle.
+    md.querySelectorAll("picture").forEach(pic => {
+      const s = [...pic.querySelectorAll("source")].find(s => s.media.includes(theme));
+      const img = pic.querySelector("img");
+      if (s && img) img.src = s.srcset;
+      pic.querySelectorAll("source").forEach(x => x.remove());
+    });
+  }
+
+  fetch("README.md").then(r => r.text()).then(t => { source = t; render(); })
+    .catch(() => { md.textContent = "Couldn't load README.md. Serve this folder over http."; });
+
+  document.getElementById("theme").onclick = e => {
+    theme = theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    document.getElementById("gh-css").href =
+      `https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown-${theme}.min.css`;
+    e.target.textContent = `switch to ${theme === "dark" ? "light" : "dark"}`;
+    render();
+  };
+  document.getElementById("replay").onclick = () => {
+    const stamp = Date.now();
+    md.querySelectorAll("img").forEach(img => {
+      if (img.src.includes("/assets/")) img.src = img.src.split("?")[0] + "?r=" + stamp;
+    });
+  };
+</script>
+</body>
+</html>

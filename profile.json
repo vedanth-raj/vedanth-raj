@@ -1,0 +1,95 @@
+{
+  "user": "vedanth-raj",
+  "name": "P V V Raj",
+
+  "terminal": {
+    "title": "vedanth@cloud: ~/profile",
+    "host": "vedanth@cloud",
+    "lines": [
+      { "cmd": "whoami",
+        "out": [["P V V Raj", "accent"], ["  ·  goes by ", "muted"], ["Vedanth", "text"]] },
+      { "cmd": "cat role.txt",
+        "out": [["B.Tech CSE (Data Science) @ NMIMS Hyderabad", "text"], ["  ·  class of 2027", "muted"]] },
+      { "cmd": "aws sts get-caller-identity --query Role",
+        "out": [["\"AWS Student Builder Campus Leader + Group Leader\"", "accent2"]] },
+      { "cmd": "ls ~/stack",
+        "out": [["python  c++  typescript  react  node  lambda  dynamodb  opencv", "text"]] },
+      { "cmd": "./status --now",
+        "out": [["●", "ok-pulse"], [" open to SDE internships & new-grad roles", "ok"]] }
+    ]
+  },
+
+  "experience": [
+    {
+      "role": "Student Builder Campus Leader & Group Leader",
+      "org": "Amazon Web Services",
+      "when": "Jul 2026 — now",
+      "current": true,
+      "points": [
+        "Selected for AWS's student technical leadership program; lead hands-on cloud and software build sessions.",
+        "Run demos and peer-learning on AWS services, app development and troubleshooting."
+      ]
+    },
+    {
+      "role": "Full-Stack Developer Intern",
+      "org": "Infosys",
+      "when": "Dec 2025 — Feb 2026",
+      "points": [
+        "Built features for an AI research-paper review and summarisation app (LitWise AI).",
+        "Feature work, debugging, testing and code reviews in a Git-based team workflow."
+      ]
+    },
+    {
+      "role": "Web Developer Intern",
+      "org": "InnoByte Services",
+      "when": "Nov 2025",
+      "points": [
+        "Shipped responsive web apps in HTML, CSS and JavaScript, from requirements to working UI."
+      ]
+    }
+  ],
+
+  "exclude_languages": ["RouterOS Script", "Procfile", "Batchfile", "Makefile", "Dockerfile", "Shell"],
+
+  "skills": {
+    "_note": "Self-rated, 0-100. Edit freely - the workflow redraws the radar on push.",
+    "Cloud / AWS": 86,
+    "Backend": 76,
+    "Frontend": 80,
+    "DSA": 72,
+    "Computer Vision": 82,
+    "ML / Data": 70,
+    "Leadership": 90
+  },
+
+  "projects": [
+    {
+      "name": "LitWise AI",
+      "repo": "R-A",
+      "blurb": "NLP system that ingests research papers, segments and scores them, then writes summaries and iterative peer reviews.",
+      "metric": "multi-doc ingest → summary → review",
+      "stack": ["Python", "Flask", "Gemini", "Socket.IO"]
+    },
+    {
+      "name": "Smart Hospital Management",
+      "repo": "Hospital-management-system",
+      "blurb": "Full-stack hospital platform: patient registration, appointments, billing and admin across role-based dashboards.",
+      "metric": "4 user roles · 8+ modules",
+      "stack": ["Next.js", "Node.js", "MongoDB"]
+    },
+    {
+      "name": "Face Auth Attendance",
+      "repo": "ats",
+      "blurb": "7-stage computer-vision pipeline that recognises employees on a live video stream and marks attendance.",
+      "metric": "98.5% accuracy · 50 ms inference",
+      "stack": ["Python", "OpenCV", "Dlib", "ResNet-50"]
+    },
+    {
+      "name": "AI Recipe Generator",
+      "repo": null,
+      "blurb": "Serverless app on 7 AWS services with 5 independently deployed Lambdas, Cognito auth and Bedrock generation.",
+      "metric": "designed for 1M+ req / month",
+      "stack": ["Lambda", "API Gateway", "DynamoDB", "Bedrock"]
+    }
+  ]
+}
