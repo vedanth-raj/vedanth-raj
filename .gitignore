@@ -3,3 +3,5 @@ __pycache__/
 .DS_Store
 Thumbs.db
 .claude/
+scratch*.json
+Vedanth_Raj_Portable_ChatGPT_Context.txt
