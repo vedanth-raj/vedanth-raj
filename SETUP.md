@@ -64,23 +64,23 @@ Two files, `assets/portrait-dark.svg` and `assets/portrait-light.svg`, one per G
 In dark mode bright areas become big bright dots; in light mode dark areas become big ink dots,
 like newspaper halftone.
 
-Both photos (`assets/photo-1.webp`, `assets/photo-2.webp`) are baked into each file. On load
-the first portrait's dots fly in and assemble outward from the face. Every 15 s the current
-portrait blows apart from the face outward while the next one assembles in its place, and it
-loops forever. Visitors with "reduce motion" turned on just see the first portrait, still.
+The source is `assets/photo-1.webp`. On load the dots fly in and assemble outward from the
+face, then a soft light band sweeps across them every 7 s. Visitors with "reduce motion"
+turned on just see the finished portrait.
 
-To change or add photos (any number works, they take turns in order):
+To regenerate it, or swap in a different photo:
 
 ```bash
 python scripts/mask.py assets/photo-1.webp -o assets/mask-1.png
-python scripts/mask.py assets/photo-2.webp -o assets/mask-2.png
-python scripts/portrait.py --photo assets/photo-1.webp assets/mask-1.png --photo assets/photo-2.webp assets/mask-2.png --theme dark  -o assets/portrait-dark.svg
-python scripts/portrait.py --photo assets/photo-1.webp assets/mask-1.png --photo assets/photo-2.webp assets/mask-2.png --theme light -o assets/portrait-light.svg
+python scripts/portrait.py --photo assets/photo-1.webp assets/mask-1.png --theme dark  -o assets/portrait-dark.svg
+python scripts/portrait.py --photo assets/photo-1.webp assets/mask-1.png --theme light -o assets/portrait-light.svg
 ```
 
-Knobs worth knowing: `--hold` (seconds per portrait, default 15), `--cols` (detail vs. file
-size; 124 with two photos is about 730 KB), `--sharpen` (edge crispness, default 140), `--fly` / `--leave` / `--spread` (transition timing).
-With a single `--photo` it assembles once and a light band sweeps over it every 7 s instead.
+Passing `--photo` more than once makes the portraits take turns instead (every `--hold`
+seconds, default 15), each one blowing apart while the next assembles.
+
+Knobs worth knowing: `--cols` (detail vs. file size; 124 is about 320 KB), `--sharpen` (edge
+crispness, default 140), `--fly` / `--spread` (timing), `--sweep 0` (no light sweep).
 `mask.py` needs `torch` + `torchvision`; `portrait.py` needs `pillow`, `numpy`, `scikit-image`.
 `build.py` needs nothing beyond Python itself.
 
